@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class AddForeignKeysToLoansPayrollsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('loans_payrolls', function (Blueprint $table) {
+            $table->foreign(['loan_id'], 'loans_payrolls_laon')->references(['id'])->on('loans')->onUpdate('NO ACTION')->onDelete('CASCADE');
+            $table->foreign(['payroll_id'], 'loans_payrolls_payroll')->references(['id'])->on('payrolls')->onUpdate('NO ACTION')->onDelete('CASCADE');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('loans_payrolls', function (Blueprint $table) {
+            $table->dropForeign('loans_payrolls_laon');
+            $table->dropForeign('loans_payrolls_payroll');
+        });
+    }
+}
